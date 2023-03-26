@@ -14,4 +14,28 @@ function init() {
   })
 }
 
-module.exports = { init};
+function UserInfo(req, pass) {
+  const stmt = database.prepare('INSERT INTO Users VALUES (?,?,?,?)')
+  stmt.run(`${req.body.userID}`, `${req.body.name}`, `${req.body.role}`, `${pass}`)
+  console.log('data entered!!!');
+
+//   usersInDB(req.body.username);
+database.all("SELECT userID FROM Users", (err, row) => {
+  if (err) {
+    console.log(err);
+  } else {
+    row.forEach(element => {
+      console.log('ele', element);
+      allUsersInDB.push(element.userID)
+    })
+    console.log(allUsersInDB, allUsersInDB.length);
+    // for (let i = 0; i < allUsersInDB.length; i++) {
+    //   console.log(allUsersInDB[i]);
+    // }
+    
+  }
+    
+})
+}
+
+module.exports = { init, UserInfo};

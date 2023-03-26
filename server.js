@@ -24,3 +24,21 @@ app.get('/admin', (req, res) => {
 app.get('/identify', (req, res) => {
   res.render('identify.ejs')
 })
+
+  
+  app.get('/register', (req, res) => {
+    res.render('register.ejs')
+  })
+
+  app.post('/register', async (req, res) => {
+    // if (req.body.username != '') {
+      try {
+        dbEncryption = await bcrypt.hash(req.body.password, 10)
+        db.UserInfo(req, dbEncryption)
+        console.log('insertion successfull!!');
+      } catch (error) {
+        console.log(error);
+      }
+    // }
+    res.redirect('/identify')
+  })
